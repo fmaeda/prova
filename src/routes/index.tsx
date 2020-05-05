@@ -5,6 +5,8 @@ import { createHashHistory } from 'history';
 
 import HomeRoute from './HomeRoute';
 import ProductsRoute from './ProductsRoute';
+import ProvaRoute from './ProvaRoute';
+import WelcomeRoute from './WelcomeRoute';
 
 const history = createHashHistory({ hashType: 'hashbang' });
 
@@ -15,7 +17,9 @@ class MainRoute extends React.Component {
         <Switch>
           <Route path="/home" component={HomeRoute} />
           <Route path="/products" component={ProductsRoute} />
-          <Route path="/" component={HomeRoute} />
+          <Route path="/prova" component={ProvaRoute} />
+          <Route path="/welcome" component={WelcomeRoute} />
+          <Route path="/" component={WelcomeRoute} />
         </Switch>
       </Router>
     );
