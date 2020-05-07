@@ -1,6 +1,6 @@
 {
   "name": "ibama-ts",
-  "homepage": ".",
+  "homepage": "https://fmaeda.github.io/prova/",
   "version": "0.1.0",
   "private": true,
   "lint-staged": {
@@ -26,6 +26,7 @@
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "react-tooltip": "^4.2.5",
     "redux": "^4.0.4",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
@@ -36,10 +37,12 @@
     "stub-server": "ts-node-dev --project ./server/tsconfig.json --respawn --transpileOnly ./server/index.ts",
     "storybook": "NODE_PATH=src/ start-storybook -p 9001 -c .storybook",
     "start-react": "REACT_APP_VERSION=local.0.0 react-app-rewired start",
-    "build": "REACT_APP_VERSION=\"$(git rev-parse --abbrev-ref HEAD).$(git svn info | grep Revision | egrep -o \"[0-9]+\")\" react-app-rewired build",
+    "build": "REACT_APP_BUILD_TIME=$(date) REACT_APP_VERSION=\"1.0.$(git rev-list --count HEAD)\" react-scripts build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "start": "npm-run-all -p stub-server start-react"
+    "start": "npm-run-all -p stub-server start-react",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -74,12 +77,13 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.19.0",
     "express": "^4.17.1",
+    "gh-pages": "^2.2.0",
     "http-proxy-middleware": "^0.19.1",
     "husky": "^3.0.2",
     "jest-emotion": "^10.0.14",
     "lint-staged": "^9.2.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.18.2",
+    "prettier": "^2.0.5",
     "react-app-rewire-hot-loader": "^2.0.1",
     "react-app-rewired": "^2.1.3",
     "react-hot-loader": "^4.12.10",

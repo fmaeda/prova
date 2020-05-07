@@ -50,7 +50,7 @@ class CountdownComponent extends React.Component<Props> {
     return (
       <Countdown
         date={new Date()}
-        now={() => Date.now() - 20000}
+        now={() => Date.now() - 10000}
         renderer={this.renderCountdown}
         onComplete={onComplete}
       />

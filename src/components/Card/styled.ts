@@ -13,5 +13,4 @@ export const Container = styled.div<Props>`
   background: ${({ background = 'linear-gradient(#8da0ad, #64737a)' }) =>
     background};
   flex: ${({ flex = 'none' }) => flex};
-  margin: 0 8px;
 `;

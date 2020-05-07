@@ -1,11 +1,9 @@
 import { StateType } from 'typesafe-actions';
 
-import { productReducer } from 'store/product';
-import { userReducer } from 'store/user/reducers';
+import { stepReducer } from 'store/steps';
 
 const allReducers = {
-  product: productReducer,
-  user: userReducer,
+  steps: stepReducer,
 };
 
 export type RootState = StateType<typeof allReducers>;

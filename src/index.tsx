@@ -9,7 +9,7 @@ import configureStore from 'store/configureStore';
 import { theme } from 'styles';
 
 import './index.css';
-import MainRoute from 'routes';
+import MainRoute from 'pages';
 
 import * as serviceWorker from './serviceWorker';
 
