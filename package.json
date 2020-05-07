@@ -17,7 +17,7 @@
     "framer-motion": "^1.10.3",
     "immer": "^3.2.0",
     "immer-reducer": "^0.7.6",
-    "mathjax": "2",
+    "mathjax": "2.7.4",
     "react": "^16.13.1",
     "react-countdown": "^2.2.1",
     "react-dom": "^16.13.1",
