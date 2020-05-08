@@ -12,6 +12,7 @@ import {
   BarContainer,
   TimerContainer,
   ProgressContainer,
+  MainButtonContainer,
 } from './styled';
 import ProgressBar from 'components/ProgressBar';
 import Countdown, {
@@ -33,6 +34,9 @@ type State = {
   minFinished: boolean;
   countdown: number;
   finished: boolean;
+  sent: boolean;
+  minutes: number;
+  seconds: number;
 };
 
 class BottomBar extends React.Component<Props, State> {
@@ -41,9 +45,12 @@ class BottomBar extends React.Component<Props, State> {
     minFinished: false,
     countdown: 0,
     finished: false,
+    sent: false,
+    minutes: 0,
+    seconds: 0,
   };
 
-  sendRef = React.createRef<ProgressButton>();
+  maxCountdownRef = React.createRef<Countdown>();
 
   toggleNotifications = () => {
     this.setState(({ showNotifications }) => ({
@@ -63,21 +70,39 @@ class BottomBar extends React.Component<Props, State> {
     ) : null;
   };
 
-  handleTick = ({ minutes, seconds }: CountdownTimeDelta) => {
+  handleTick = (countdown: boolean) => ({
+    minutes,
+    seconds,
+  }: CountdownTimeDelta) => {
     const total = minutes * 60 + seconds;
-    if (total <= 10) {
+    this.setState({ minutes, seconds });
+    if (countdown && total <= 10) {
       this.setState({ countdown: total });
     }
   };
 
   handleSend = (disabled: boolean, locked: boolean) => {
-    // if (this.sendRef.current) {
-    //   ReactTooltip.show(this.sendRef.current as any);
-    // }
+    if (!disabled && !locked) {
+      console.log('sent');
+      if (!this.maxCountdownRef.current?.isPaused()) {
+        this.maxCountdownRef.current?.pause();
+      }
+      this.setState({ sent: true });
+    } else {
+      console.log('disabled/locked', disabled, locked);
+    }
   };
 
   render() {
-    const { showNotifications, minFinished, countdown, finished } = this.state;
+    const {
+      showNotifications,
+      minFinished,
+      countdown,
+      finished,
+      sent,
+      minutes,
+      seconds,
+    } = this.state;
     const { questaoAtual } = this.props;
 
     if (!questaoAtual) {
@@ -91,9 +116,9 @@ class BottomBar extends React.Component<Props, State> {
       <Container>
         <TimerContainer>
           <ProgressContainer>
-            <ChatBalloon hidden={!showNotifications}>
+            {/* <ChatBalloon hidden={!showNotifications}>
               {showNotifications && `Min: ${questaoAtual.tempoMinimo}s`}
-            </ChatBalloon>
+            </ChatBalloon> */}
             <Countdown
               key="minCountdown"
               date={minDate}
@@ -102,14 +127,17 @@ class BottomBar extends React.Component<Props, State> {
                 questaoAtual.tempoMinimo,
                 showNotifications,
               )}
-              onComplete={() => this.setState({ minFinished: true })}
+              onTick={this.handleTick(false)}
+              onComplete={() =>
+                this.setState({ minFinished: true, minutes: 0, seconds: 0 })
+              }
             />
           </ProgressContainer>
           <span />
           <ProgressContainer>
-            <ChatBalloon hidden={!showNotifications}>
+            {/* <ChatBalloon hidden={!showNotifications}>
               {showNotifications && `Max: ${questaoAtual.tempoMaximo}s`}
-            </ChatBalloon>
+            </ChatBalloon> */}
             {!!minFinished ? (
               <Countdown
                 key="maxCountdown"
@@ -119,7 +147,8 @@ class BottomBar extends React.Component<Props, State> {
                   questaoAtual.tempoMaximo - questaoAtual.tempoMinimo,
                   showNotifications,
                 )}
-                onTick={this.handleTick}
+                onTick={this.handleTick(true)}
+                ref={this.maxCountdownRef}
                 onComplete={() => this.setState({ finished: true })}
               />
             ) : (
@@ -131,15 +160,20 @@ class BottomBar extends React.Component<Props, State> {
         </TimerContainer>
         <BarContainer>
           <IconButton icon={FaInfoCircle} onClick={() => null} disabled />
-          <div />
-          <div />
-          <ProgressButton
-            onClick={this.handleSend}
-            countdown={countdown}
-            disabled={!minFinished || finished}
-            locked={finished}
-            ref={this.sendRef}
-          />
+          {/* <div /> */}
+          {/* <div /> */}
+          <MainButtonContainer>
+            <ProgressButton
+              onClick={this.handleSend}
+              countdown={countdown}
+              disabled={!minFinished || finished}
+              locked={finished}
+              sent={sent}
+              minutes={minutes}
+              seconds={seconds}
+              silent={!showNotifications}
+            />
+          </MainButtonContainer>
           <IconButton
             icon={showNotifications ? FaBell : FaBellSlash}
             onClick={this.toggleNotifications}

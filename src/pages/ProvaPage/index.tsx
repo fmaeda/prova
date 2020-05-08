@@ -29,7 +29,7 @@ class ProvaRoute extends React.Component<Props, State> {
       enunciado: 'Questao teste...',
       horaInicio: new Date().toISOString(),
       tempoMinimo: 10, // 1 min
-      tempoMaximo: 30, // 3 min
+      tempoMaximo: 60, // 3 min
       alternativas: [],
     });
     setAlternativa(null);
