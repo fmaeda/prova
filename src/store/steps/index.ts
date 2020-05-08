@@ -17,7 +17,7 @@ class StepsReducer extends ImmerReducer<State> {
 
   increment() {
     const idx = this.draftState.findIndex(
-      step => step.total > 0 && step.total !== step.concluidos,
+      (step) => step.total > 0 && step.total !== step.concluidos,
     );
     if (idx >= 0) {
       const concluidos = ++this.draftState[idx].concluidos;

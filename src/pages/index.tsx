@@ -15,7 +15,7 @@ class MainRoute extends React.Component {
         <Switch>
           <Route path="/prova" component={ProvaPage} />
           <Route path="/welcome" component={WelcomePage} />
-          <Route path="/" component={WelcomePage} />
+          <Route path="/" component={ProvaPage} />
         </Switch>
       </Router>
     );

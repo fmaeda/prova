@@ -81,11 +81,11 @@ class WelcomeRoute extends React.Component<Props, State> {
           </Content>
           <ButtonContainer>
             <AnimatePresence>
-              <Button onClick={this.handleTutorialClick}>
+              <Button onClick={this.handleTutorialClick} key="tutorial">
                 <FaChalkboardTeacher /> Tutorial
               </Button>
               {!!ready && (
-                <Button onClick={this.handleStartClick}>
+                <Button onClick={this.handleStartClick} key="start">
                   <FaRegPlayCircle /> Iniciar Prova
                 </Button>
               )}
