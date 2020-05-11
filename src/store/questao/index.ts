@@ -8,7 +8,7 @@ import { Questao, Alternativa } from 'model/questao';
 
 type State = {
   questaoAtual: Questao | null;
-  alternativaSelecionada: Alternativa | null;
+  alternativaSelecionada?: Alternativa | null;
 };
 
 const DEFAULT_STATE: State = {
@@ -19,6 +19,7 @@ const DEFAULT_STATE: State = {
 class QuestaoReducer extends ImmerReducer<State> {
   setQuestao(questao: Questao) {
     this.draftState.questaoAtual = questao;
+    this.draftState.alternativaSelecionada = undefined;
   }
 
   setAlternativa(alternativa: Alternativa | null) {

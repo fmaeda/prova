@@ -13,8 +13,9 @@ class UserDetails extends React.Component<Props> {
 
     return (
       <Container>
-        <Label></Label>
-        <Label></Label>
+        <Label>{nome}</Label>
+        <span>{cpf}</span>
+        {/* <Label>CPF: {cpf}</Label> */}
       </Container>
     );
   }

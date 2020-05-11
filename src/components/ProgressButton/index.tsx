@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FaArrowRight, FaLock } from 'react-icons/fa';
+import { FaLock } from 'react-icons/fa';
 import { MdTimer, MdSend } from 'react-icons/md';
 
 import { Container, IconContainer, Content, Check } from './styled';

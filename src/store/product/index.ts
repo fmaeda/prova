@@ -21,7 +21,7 @@ class ProductReducer extends ImmerReducer<State> {
 
   public removeProduct(product: Product) {
     this.draftState.products = this.draftState.products.filter(
-      p => p.id !== product.id,
+      (p) => p.id !== product.id,
     );
   }
 
