@@ -20,8 +20,12 @@ export const Header = styled.div`
   flex-direction: row;
   align-self: stretch;
   align-items: center;
+  padding: 12px 0;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.3);
   /* flex: 1; */
-  background: linear-gradient(#bbb, #777);
+  background: linear-gradient(#383838, #878787);
+  /* background: gray; */
+  color: rgba(255, 255, 255, 0.7);
   /* overflow: hidden; */
 `;
 
@@ -40,8 +44,8 @@ export const Content = styled.div`
   padding: 0 20px;
   overflow-x: hidden;
   overflow-y: scroll;
-  margin-bottom: 48px;
-  scrollbar-color: #777 transparent;
+  padding-bottom: 48px;
+  scrollbar-color: gray transparent;
 
   ::-webkit-scrollbar {
     width: 9px;
@@ -54,7 +58,7 @@ export const Content = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #777;
+    background: #aaa;
     /* margin-top: 4px; */
     border-radius: 40px;
   }
@@ -85,4 +89,16 @@ export const AlternativasContainer = styled.div`
   flex-direction: column;
   align-self: stretch;
   align-items: flex-start;
+`;
+
+export const Divider = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  flex: 1;
+  min-height: 1px;
+  width: 90%;
+  margin: 20px 0;
+  /* border: solid lime; */
+  background: silver;
 `;

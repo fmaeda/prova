@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaRegCircle, FaRegCheckCircle } from 'react-icons/fa';
+import { FaRegCircle, FaCheckCircle } from 'react-icons/fa';
 import { Container, Content } from './styled';
 
 type Props = {
@@ -14,8 +14,9 @@ class AlternativaComponent extends React.Component<Props> {
 
     return (
       <Container onClick={onClick} active={active}>
-        {active ? <FaRegCheckCircle /> : <FaRegCircle />}
+        {active ? <FaCheckCircle /> : <FaRegCircle />}
         <Content
+          active={active}
           dangerouslySetInnerHTML={{
             __html: content,
           }}

@@ -11,6 +11,7 @@ import {
   Header,
   QuestaoContainer,
   AlternativasContainer,
+  Divider,
 } from './styled';
 import { stepActions } from 'store/steps';
 import BottomBar from 'components/BottomBar';
@@ -70,7 +71,7 @@ class ProvaRoute extends React.Component<Props, State> {
   };
 
   handleAlternativa = (alternativa: Alternativa | null) => () => {
-    console.log('alternativa', alternativa?.id);
+    // console.log('alternativa', alternativa?.id);
     const { setAlternativa } = this.props;
     setAlternativa(alternativa);
   };
@@ -96,6 +97,7 @@ class ProvaRoute extends React.Component<Props, State> {
               __html: questaoAtual?.enunciado ?? '',
             }}
           />
+          <Divider />
           <AlternativasContainer>
             {questaoAtual?.alternativas.map((alternativa) => (
               <AlternativaComponent
