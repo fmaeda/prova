@@ -15,7 +15,9 @@ export const BarContainer = styled.div`
   align-items: center;
   justify-content: space-evenly;
   padding: 20px 0;
-  background: whitesmoke;
+  /* background: whitesmoke; */
+  background: linear-gradient(#383838, #5b5b5b);
+  /* background: #383838; */
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
   > div {
     flex: 1;

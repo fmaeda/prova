@@ -5,6 +5,7 @@ type Props = {
 };
 export const Container = styled.div<Props>`
   display: flex;
+  color: rgba(255, 255, 255, 0.5);
   > svg {
     font-size: 28px;
   }

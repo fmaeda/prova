@@ -13,10 +13,12 @@ export const Container = styled.div<Props>`
   padding-left: 12px;
   cursor: ${({ active }) => (!!active ? 'unset' : 'pointer')};
   user-select: none;
-  background: whitesmoke;
+  /* background: whitesmoke; */
+  background: #ffffff;
   border-radius: 8px;
   /* filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2)); */
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
   > svg {
     transition: all 0.2s ease-in-out;
     font-size: 20px;
@@ -25,6 +27,7 @@ export const Container = styled.div<Props>`
   ${({ active }) =>
     active &&
     `
+    /* background: #F4F3FB; */
     background: white;
     > div {
       /* border-color: #ea3856; */
@@ -35,6 +38,8 @@ export const Container = styled.div<Props>`
   `};
 
   :hover {
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
+    transform: translateX(-2px) translateY(-2px);
     > div {
       /* border-color: #ea3856; */
     }

@@ -5,12 +5,14 @@ export const Container = styled.div`
   flex-direction: column;
   align-self: stretch;
   /* background: #2d2d2d; */
-  background: linear-gradient(#fff, #ccc);
+  background: linear-gradient(#f2f3f8, #fff);
   min-height: 0;
   flex: 1;
+  box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.3);
+
   @media only screen and (min-width: 768px) {
     margin: 40px 0;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     overflow: hidden;
   }
 `;
@@ -23,9 +25,11 @@ export const Header = styled.div`
   padding: 12px 0;
   box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.3);
   /* flex: 1; */
-  background: linear-gradient(#383838, #878787);
-  /* background: gray; */
-  color: rgba(255, 255, 255, 0.7);
+  /* background: linear-gradient(#383838, #878787); */
+  /* background: #201f2a; */
+  background: whitesmoke;
+  /* color: rgba(255, 255, 255, 0.7); */
+  color: rgba(0, 0, 0, 0.7);
   /* overflow: hidden; */
 `;
 
@@ -45,6 +49,7 @@ export const Content = styled.div`
   overflow-x: hidden;
   overflow-y: scroll;
   padding-bottom: 48px;
+  margin-bottom: 12px;
   scrollbar-color: gray transparent;
 
   ::-webkit-scrollbar {

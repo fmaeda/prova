@@ -11,13 +11,16 @@ export const Container = styled.div<Props>`
   align-items: center;
   justify-content: center;
   border-radius: 900px;
-  border: 8px solid whitesmoke;
+  /* border: 8px solid whitesmoke; */
+  border: 8px solid #5b5b5b;
   width: 60px;
   height: 60px;
   overflow: hidden;
-  background: #ddd;
+  /* background: #ddd; */
+  background: #383838;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  color: ${({ disabled }) => (disabled ? 'rgba(0, 0, 0, 0.2)' : '#ea3856')};
+  color: ${({ disabled }) =>
+    disabled ? 'rgba(255, 255, 255, 0.2)' : '#ea3856'};
   font-size: ${({ disabled }) => (disabled ? '32px' : '24px')};
   font-weight: bold;
 
@@ -51,18 +54,21 @@ type SilentProps = {
 };
 export const IconContainer = styled.div<SilentProps>`
   display: flex;
-  align-self: stretch;
   flex-direction: column;
+  align-self: stretch;
   align-items: center;
   justify-content: center;
   ${({ silent }) =>
     !silent &&
     `
     > svg {
+      align-self: center;
       margin: 8px 0 -4px;
       flex: 1;
+      /* border: solid 1px lime; */
     }
     > div {
+      text-align: center;
       margin: 4px 0 8px;
       font-weight: 600;
       font-size: 10px;

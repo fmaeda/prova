@@ -2,6 +2,7 @@ import React from 'react';
 
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import Logo from 'components/Logo';
 import {
@@ -25,6 +26,9 @@ import { RootState } from 'store';
 import AlternativaComponent from './AlternativaComponent';
 import questaoMock from './questaoMock';
 import { Alternativa } from 'model/questao';
+// import Breadcrumbs from 'components/Breadcrumbs';
+import CompletionMeter from 'components/CompletionMeter';
+import { exameActions } from 'store/exame/index';
 
 const mapStateToProps = ({
   questao: { questaoAtual, alternativaSelecionada },
@@ -38,6 +42,7 @@ type Props = {
   setQuestao: typeof questaoActions.setQuestao;
   setAlternativa: typeof questaoActions.setAlternativa;
   setDataFinalProva: typeof authActions.setDataFinalProva;
+  setExame: typeof exameActions.setExame;
 } & RouteComponentProps &
   ReturnType<typeof mapStateToProps>;
 
@@ -51,16 +56,30 @@ class ProvaRoute extends React.Component<Props, State> {
 
   contentRef = React.createRef<HTMLDivElement>();
 
+  componentDidMount() {
+    const { setQuestao, setDataFinalProva, setExame } = this.props;
+    setQuestao(questaoMock);
+    setDataFinalProva(add(new Date(), { hours: 2 }).toISOString());
+    setExame({
+      horarioInicioProva: new Date().toISOString(),
+      horarioServidor: new Date().toISOString(),
+      respondidas: 20,
+      restante: 30,
+      tempoRestante: 1600,
+    });
+    axios
+      .get('http://qdxonline.quadrix.org.br:8080/hello', {
+        withCredentials: true,
+      })
+      .then(({ data }) => {
+        console.log('data', data);
+      });
+  }
+
   componentDidUpdate() {
     if (MathJax) {
       MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.contentRef.current]);
     }
-  }
-
-  componentDidMount() {
-    const { setQuestao, setDataFinalProva } = this.props;
-    setQuestao(questaoMock);
-    setDataFinalProva(add(new Date(), { hours: 2 }).toISOString());
   }
 
   handleStartClick = () => {
@@ -83,11 +102,12 @@ class ProvaRoute extends React.Component<Props, State> {
       <Container>
         <Header>
           <Logo />
-          {/* <Breadcrumbs collapsed /> */}
           <UserDetails nome="Fabiano Maeda" cpf="123.456.789-09" />
           <div style={{ flex: 1 }} />
           <TimerProva />
         </Header>
+        <CompletionMeter />
+        {/* <Breadcrumbs collapsed /> */}
         <Content ref={this.contentRef}>
           <Title>
             <h2>{questaoAtual?.secao}</h2>
@@ -125,4 +145,5 @@ export default connect(mapStateToProps, {
   setQuestao: questaoActions.setQuestao,
   setAlternativa: questaoActions.setAlternativa,
   setDataFinalProva: authActions.setDataFinalProva,
+  setExame: exameActions.setExame,
 })(ProvaRoute);
