@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { Container, Content, ProgressContainer, ProgressBar } from './styled';
 import { RootState } from 'store';
 
-const mapStateToProps = ({ exame: { respondidas, restante } }: RootState) => ({
-  progress: (respondidas / (restante + respondidas)) * 100,
+const mapStateToProps = ({ exame: { respondidas, restantes } }: RootState) => ({
+  progress: (respondidas / (restantes + respondidas)) * 100,
 });
 
 type Props = {} & ReturnType<typeof mapStateToProps>;

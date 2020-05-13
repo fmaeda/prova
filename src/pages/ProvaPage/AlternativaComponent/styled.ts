@@ -65,7 +65,9 @@ export const Content = styled.div<Props>`
   /* background: whitesmoke; */
 
   /* box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.2); */
-  *:focus {
-    outline: none;
+  * {
+    :focus {
+      outline: none;
+    }
   }
 `;

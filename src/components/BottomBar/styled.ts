@@ -4,6 +4,8 @@ export const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  /* justify-content: flex-end; */
+  /* min-height: 120px; */
   /* flex: 1; */
   /* border: solid red; */
 `;
@@ -29,8 +31,12 @@ export const BarContainer = styled.div`
 
 export const TimerContainer = styled.div`
   display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
   flex-direction: row;
-  position: relative;
+  background: silver;
+  min-height: 4px;
   > span {
     width: 70px;
   }
@@ -42,12 +48,12 @@ export const ProgressContainer = styled.div`
   flex: 1;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 2px;
-  background: silver;
-  > div {
+  /* min-height: 2px; */
+  /* background: silver; */
+  /* > div {
     text-align: center;
     margin-bottom: 2px;
-  }
+  } */
   /* border: solid lime; */
 `;
 

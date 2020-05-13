@@ -12,7 +12,7 @@ const DEFAULT_STATE: State = {
   horarioInicioProva: '',
   tempoRestante: 0,
   respondidas: 0,
-  restante: 0,
+  restantes: 0,
 };
 
 class ExameReducer extends ImmerReducer<State> {

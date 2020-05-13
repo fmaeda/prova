@@ -9,6 +9,7 @@ export const Container = styled.div`
   min-height: 0;
   flex: 1;
   box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.3);
+  /* border: solid lime; */
 
   @media only screen and (min-width: 768px) {
     margin: 40px 0;
@@ -42,14 +43,16 @@ export const Title = styled.div`
 `;
 
 export const Content = styled.div`
+  /* border: solid red; */
   display: flex;
   flex: 1;
   flex-direction: column;
   padding: 0 20px;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-x: none;
+  overflow-y: auto;
+  /* border: solid orange; */
   padding-bottom: 48px;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   scrollbar-color: gray transparent;
 
   ::-webkit-scrollbar {
@@ -76,12 +79,14 @@ export const CountdownContainer = styled.div`
 
 export const QuestaoContainer = styled.div`
   display: flex;
+  flex: 1;
   text-align: center;
   p {
     text-align: justify;
   }
 
   img {
+    max-width: 80%;
     text-align: center;
     margin: 16px;
     align-self: center;
@@ -94,13 +99,15 @@ export const AlternativasContainer = styled.div`
   flex-direction: column;
   align-self: stretch;
   align-items: flex-start;
+  /* border: solid lime; */
+  /* flex: 1; */
 `;
 
 export const Divider = styled.div`
   display: flex;
   flex-direction: row;
   align-self: center;
-  flex: 1;
+  /* flex: 1; */
   min-height: 1px;
   width: 90%;
   margin: 20px 0;

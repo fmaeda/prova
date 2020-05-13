@@ -1,8 +1,8 @@
 import React from 'react';
 
+import Media from 'react-media';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import Logo from 'components/Logo';
 import {
@@ -64,23 +64,17 @@ class ProvaRoute extends React.Component<Props, State> {
       horarioInicioProva: new Date().toISOString(),
       horarioServidor: new Date().toISOString(),
       respondidas: 20,
-      restante: 30,
+      restantes: 30,
       tempoRestante: 1600,
     });
-    axios
-      .get('http://qdxonline.quadrix.org.br:8080/hello', {
-        withCredentials: true,
-      })
-      .then(({ data }) => {
-        console.log('data', data);
-      });
+    this.updateMathjax();
   }
 
-  componentDidUpdate() {
+  updateMathjax = () => {
     if (MathJax) {
       MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.contentRef.current]);
     }
-  }
+  };
 
   handleStartClick = () => {
     // const { history } = this.props;
@@ -109,30 +103,37 @@ class ProvaRoute extends React.Component<Props, State> {
         <CompletionMeter />
         {/* <Breadcrumbs collapsed /> */}
         <Content ref={this.contentRef}>
-          <Title>
-            <h2>{questaoAtual?.secao}</h2>
-          </Title>
-          <QuestaoContainer
-            dangerouslySetInnerHTML={{
-              __html: questaoAtual?.enunciado ?? '',
-            }}
-          />
-          <Divider />
-          <AlternativasContainer>
-            {questaoAtual?.alternativas.map((alternativa) => (
-              <AlternativaComponent
-                key={alternativa.id}
-                content={alternativa.descricao}
-                active={alternativaSelecionada?.id === alternativa.id}
-                onClick={this.handleAlternativa(alternativa)}
-              />
-            ))}
-            <AlternativaComponent
-              content={String.raw`<p>Deixar em branco</p>`}
-              onClick={this.handleAlternativa(null)}
-              active={alternativaSelecionada === null}
+          <div>
+            <Title>
+              <h2>{questaoAtual?.secao}</h2>
+            </Title>
+            <QuestaoContainer
+              dangerouslySetInnerHTML={{
+                __html: questaoAtual?.enunciado ?? '',
+              }}
             />
-          </AlternativasContainer>
+            <Divider />
+            <AlternativasContainer>
+              {questaoAtual?.alternativas.map((alternativa) => (
+                <AlternativaComponent
+                  key={alternativa.id}
+                  content={alternativa.descricao}
+                  // content={String.raw`<p>Teste</p>`}
+                  active={alternativaSelecionada?.id === alternativa.id}
+                  onClick={this.handleAlternativa(alternativa)}
+                />
+              ))}
+              <AlternativaComponent
+                content={String.raw`<p>Deixar em branco</p>`}
+                onClick={this.handleAlternativa(null)}
+                active={alternativaSelecionada === null}
+              />
+            </AlternativasContainer>
+            <Media
+              query="(max-width: 599px)"
+              render={() => <div style={{ height: 120 }} />}
+            />
+          </div>
         </Content>
         <BottomBar />
       </Container>

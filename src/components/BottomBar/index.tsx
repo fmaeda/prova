@@ -116,9 +116,6 @@ class BottomBar extends React.Component<Props, State> {
       <Container>
         <TimerContainer>
           <ProgressContainer>
-            {/* <ChatBalloon hidden={!showNotifications}>
-              {showNotifications && `Min: ${questaoAtual.tempoMinimo}s`}
-            </ChatBalloon> */}
             <Countdown
               key="minCountdown"
               date={minDate}
@@ -135,9 +132,6 @@ class BottomBar extends React.Component<Props, State> {
           </ProgressContainer>
           <span />
           <ProgressContainer>
-            {/* <ChatBalloon hidden={!showNotifications}>
-              {showNotifications && `Max: ${questaoAtual.tempoMaximo}s`}
-            </ChatBalloon> */}
             {!!minFinished ? (
               <Countdown
                 key="maxCountdown"

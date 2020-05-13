@@ -30,8 +30,8 @@ export const Bar = styled.div<BarProps>`
   bottom: 0;
   top: 0;
   left: 0;
-  background: ${({ color }) => color};
   right: ${({ progress }) => `${100 - progress}%`};
-  height: 2px;
+  background: ${({ color }) => color};
+  /* height: 2px; */
   /* border: solid pink; */
 `;

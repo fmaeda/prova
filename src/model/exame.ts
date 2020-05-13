@@ -3,5 +3,5 @@ export type Exame = {
   horarioInicioProva: string;
   tempoRestante: number;
   respondidas: number;
-  restante: number;
+  restantes: number;
 };

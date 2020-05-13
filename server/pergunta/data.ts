@@ -1,9 +1,9 @@
-import { Questao } from 'model/questao';
+import { Questao } from '../../src/model/questao';
 
 const data: Questao = {
   horaInicio: new Date().toISOString(),
   tempoMinimo: 90,
-  tempoMaximo: 30,
+  tempoMaximo: 180,
   secao: 'Matemática',
   textoApoio: '',
   enunciado: String.raw`
@@ -27,6 +27,7 @@ const data: Questao = {
       descricao: String.raw`
     \[
       (\nabla_X Y)^k = X^i (\nabla_i Y)^k =
+        X^i \left( \frac{\partial Y^k}{\partial x^i} + \Gamma_{im}^k Y^m \right)
       \]
     `,
     },

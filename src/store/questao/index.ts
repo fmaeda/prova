@@ -5,6 +5,9 @@ import {
 } from 'immer-reducer';
 
 import { Questao, Alternativa } from 'model/questao';
+import { RootState } from 'store';
+import { ThunkAction } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
 type State = {
   questaoAtual: Questao | null;
@@ -32,3 +35,4 @@ export const questaoReducer = createReducerFunction(
   QuestaoReducer,
   DEFAULT_STATE,
 );
+export { default as questaoThunks } from './thunks';
