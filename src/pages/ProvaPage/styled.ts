@@ -109,7 +109,7 @@ export const Divider = styled.div`
   align-self: center;
   /* flex: 1; */
   min-height: 1px;
-  width: 90%;
+  width: 100%;
   margin: 20px 0;
   /* border: solid lime; */
   background: silver;

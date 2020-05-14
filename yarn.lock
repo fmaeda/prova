@@ -9748,6 +9748,13 @@ react-scripts@3.4.1:
   optionalDependencies:
     fsevents "2.1.2"
 
+react-spinners@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.npmjs.org/react-spinners/-/react-spinners-0.8.3.tgz#d08ed753aec4a7ef9f5d9b907ee0161271c932ee"
+  integrity sha512-fuYNjH0megp5FLuUqQXWM9mPgBXUjvYD6IkMOiwNGOOlI2UdOP1ZC3vejUAa3Y/q4qWJ6yx8rjfMjIBgEji+9A==
+  dependencies:
+    "@emotion/core" "^10.0.15"
+
 react-tooltip@^4.2.5:
   version "4.2.5"
   resolved "https://registry.npmjs.org/react-tooltip/-/react-tooltip-4.2.5.tgz#2f26ce768461567b70799c4422a7e00a96de27ca"

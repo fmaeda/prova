@@ -19,12 +19,11 @@ import BottomBar from 'components/BottomBar';
 import { questaoActions } from 'store/questao/index';
 import UserDetails from 'components/UserDetails';
 import TimerProva from 'components/TimerProva/index';
-import { authActions } from 'store/auth';
-import { add } from 'date-fns';
 import { RootState } from 'store';
+import { ThunkActionDispatch } from 'redux-thunk';
+import { questaoThunks } from 'store/questao';
 
 import AlternativaComponent from './AlternativaComponent';
-import questaoMock from './questaoMock';
 import { Alternativa } from 'model/questao';
 // import Breadcrumbs from 'components/Breadcrumbs';
 import CompletionMeter from 'components/CompletionMeter';
@@ -32,17 +31,20 @@ import { exameActions } from 'store/exame/index';
 
 const mapStateToProps = ({
   questao: { questaoAtual, alternativaSelecionada },
+  auth: { nome, cpf },
 }: RootState) => ({
   questaoAtual,
   alternativaSelecionada,
+  nome,
+  cpf,
 });
 
 type Props = {
   increment: typeof stepActions.increment;
   setQuestao: typeof questaoActions.setQuestao;
   setAlternativa: typeof questaoActions.setAlternativa;
-  setDataFinalProva: typeof authActions.setDataFinalProva;
   setExame: typeof exameActions.setExame;
+  fetchQuestao: ThunkActionDispatch<typeof questaoThunks.fetchQuestao>;
 } & RouteComponentProps &
   ReturnType<typeof mapStateToProps>;
 
@@ -57,30 +59,29 @@ class ProvaRoute extends React.Component<Props, State> {
   contentRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
-    const { setQuestao, setDataFinalProva, setExame } = this.props;
-    setQuestao(questaoMock);
-    setDataFinalProva(add(new Date(), { hours: 2 }).toISOString());
-    setExame({
-      horarioInicioProva: new Date().toISOString(),
-      horarioServidor: new Date().toISOString(),
-      respondidas: 20,
-      restantes: 30,
-      tempoRestante: 1600,
-    });
-    this.updateMathjax();
+    // const { setQuestao, setExame } = this.props;
+    // setQuestao(questaoMock);
+    // setExame({
+    //   horarioServidor: new Date().toISOString(),
+    //   respondidas: 20,
+    //   restantes: 30,
+    //   tempoRestante: 1600,
+    // });
+    // this.updateMathjax();
+    this.loadQuestao();
   }
+
+  loadQuestao = () => {
+    const { fetchQuestao } = this.props;
+    fetchQuestao().then(() => {
+      this.updateMathjax();
+    });
+  };
 
   updateMathjax = () => {
     if (MathJax) {
       MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.contentRef.current]);
     }
-  };
-
-  handleStartClick = () => {
-    // const { history } = this.props;
-    // history.push('/prova');
-    const { increment } = this.props;
-    increment();
   };
 
   handleAlternativa = (alternativa: Alternativa | null) => () => {
@@ -89,14 +90,18 @@ class ProvaRoute extends React.Component<Props, State> {
     setAlternativa(alternativa);
   };
 
+  handleTimeout = () => {
+    this.loadQuestao();
+  };
+
   render() {
-    const { questaoAtual, alternativaSelecionada } = this.props;
+    const { questaoAtual, alternativaSelecionada, nome, cpf } = this.props;
 
     return (
       <Container>
         <Header>
           <Logo />
-          <UserDetails nome="Fabiano Maeda" cpf="123.456.789-09" />
+          <UserDetails nome={nome} cpf={cpf} />
           <div style={{ flex: 1 }} />
           <TimerProva />
         </Header>
@@ -135,7 +140,11 @@ class ProvaRoute extends React.Component<Props, State> {
             />
           </div>
         </Content>
-        <BottomBar />
+        <BottomBar
+          key={questaoAtual?.horaInicio}
+          onTimeout={this.handleTimeout}
+          onSendComplete={this.updateMathjax}
+        />
       </Container>
     );
   }
@@ -145,6 +154,6 @@ export default connect(mapStateToProps, {
   increment: stepActions.increment,
   setQuestao: questaoActions.setQuestao,
   setAlternativa: questaoActions.setAlternativa,
-  setDataFinalProva: authActions.setDataFinalProva,
   setExame: exameActions.setExame,
+  fetchQuestao: questaoThunks.fetchQuestao,
 })(ProvaRoute);

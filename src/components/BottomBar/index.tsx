@@ -5,7 +5,6 @@ import { FaBell, FaInfoCircle, FaBellSlash } from 'react-icons/fa';
 
 import ProgressButton from 'components/ProgressButton';
 import IconButton from 'components/IconButton';
-import ChatBalloon from 'components/ChatBalloon';
 
 import {
   Container,
@@ -22,15 +21,28 @@ import Countdown, {
 import { RootState } from 'store';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
+import { questaoThunks } from 'store/questao';
+import { ThunkActionDispatch } from 'redux-thunk';
+import { exameActions } from 'store/exame';
 
-const mapStateToProps = ({ questao: { questaoAtual } }: RootState) => ({
+const mapStateToProps = ({
+  questao: { questaoAtual },
+  exame: { showNotifications },
+  request: { loading },
+}: RootState) => ({
   questaoAtual,
+  showNotifications,
+  loading,
 });
 
-type Props = {} & ReturnType<typeof mapStateToProps>;
+type Props = {
+  onSendComplete: () => void;
+  onTimeout: () => void;
+  toggleNotifications: typeof exameActions.toggleNotifications;
+  sendResposta: ThunkActionDispatch<typeof questaoThunks.sendResposta>;
+} & ReturnType<typeof mapStateToProps>;
 
 type State = {
-  showNotifications: boolean;
   minFinished: boolean;
   countdown: number;
   finished: boolean;
@@ -41,7 +53,6 @@ type State = {
 
 class BottomBar extends React.Component<Props, State> {
   state: State = {
-    showNotifications: true,
     minFinished: false,
     countdown: 0,
     finished: false,
@@ -53,9 +64,8 @@ class BottomBar extends React.Component<Props, State> {
   maxCountdownRef = React.createRef<Countdown>();
 
   toggleNotifications = () => {
-    this.setState(({ showNotifications }) => ({
-      showNotifications: !showNotifications,
-    }));
+    const { toggleNotifications } = this.props;
+    toggleNotifications();
   };
 
   renderProgressCountdown = (tempo: number, showNotifications: boolean) => ({
@@ -84,10 +94,22 @@ class BottomBar extends React.Component<Props, State> {
   handleSend = (disabled: boolean, locked: boolean) => {
     if (!disabled && !locked) {
       console.log('sent');
-      if (!this.maxCountdownRef.current?.isPaused()) {
-        this.maxCountdownRef.current?.pause();
-      }
+      const { onSendComplete, sendResposta } = this.props;
       this.setState({ sent: true });
+      sendResposta().then(() => {
+        onSendComplete();
+        this.setState({
+          minFinished: false,
+          countdown: 0,
+          finished: false,
+          sent: false,
+          minutes: 0,
+          seconds: 0,
+        });
+      });
+      // if (!this.maxCountdownRef.current?.isPaused()) {
+      //   this.maxCountdownRef.current?.pause();
+      // }
     } else {
       console.log('disabled/locked', disabled, locked);
     }
@@ -95,7 +117,6 @@ class BottomBar extends React.Component<Props, State> {
 
   render() {
     const {
-      showNotifications,
       minFinished,
       countdown,
       finished,
@@ -103,7 +124,7 @@ class BottomBar extends React.Component<Props, State> {
       minutes,
       seconds,
     } = this.state;
-    const { questaoAtual } = this.props;
+    const { questaoAtual, showNotifications, onTimeout, loading } = this.props;
 
     if (!questaoAtual) {
       return null;
@@ -125,9 +146,9 @@ class BottomBar extends React.Component<Props, State> {
                 showNotifications,
               )}
               onTick={this.handleTick(false)}
-              onComplete={() =>
-                this.setState({ minFinished: true, minutes: 0, seconds: 0 })
-              }
+              onComplete={() => {
+                this.setState({ minFinished: true, minutes: 0, seconds: 0 });
+              }}
             />
           </ProgressContainer>
           <span />
@@ -143,7 +164,10 @@ class BottomBar extends React.Component<Props, State> {
                 )}
                 onTick={this.handleTick(true)}
                 ref={this.maxCountdownRef}
-                onComplete={() => this.setState({ finished: true })}
+                onComplete={() => {
+                  this.setState({ finished: true });
+                  onTimeout();
+                }}
               />
             ) : (
               showNotifications && (
@@ -166,6 +190,7 @@ class BottomBar extends React.Component<Props, State> {
               minutes={minutes}
               seconds={seconds}
               silent={!showNotifications}
+              loading={loading}
             />
           </MainButtonContainer>
           <IconButton
@@ -179,4 +204,7 @@ class BottomBar extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps)(BottomBar);
+export default connect(mapStateToProps, {
+  sendResposta: questaoThunks.sendResposta,
+  toggleNotifications: exameActions.toggleNotifications,
+})(BottomBar);

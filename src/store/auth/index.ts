@@ -9,8 +9,6 @@ type State = {
   nome: string;
   cpf: string;
   inscricao: string;
-  dataFinalProva: string | null;
-  timeDiffMillis: number;
 };
 
 const DEFAULT_STATE: State = {
@@ -18,23 +16,11 @@ const DEFAULT_STATE: State = {
   nome: '',
   cpf: '',
   inscricao: '',
-  timeDiffMillis: 0,
-  dataFinalProva: null,
 };
 
 class AuthReducer extends ImmerReducer<State> {
   setToken(token: string) {
     this.draftState.token = token;
-  }
-
-  setDataFinalProva(dataFinalProva: string) {
-    this.draftState.dataFinalProva = dataFinalProva;
-  }
-
-  updateClientTimeDiff(serverDate: string | null) {
-    this.draftState.timeDiffMillis = serverDate
-      ? Date.now() - new Date(serverDate).getTime()
-      : 0;
   }
 
   setUserDetails({

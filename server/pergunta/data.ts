@@ -1,6 +1,7 @@
 import { Questao } from '../../src/model/questao';
+import { Exame } from '../../src/model/exame';
 
-const data: Questao = {
+const questao: Questao = {
   horaInicio: new Date().toISOString(),
   tempoMinimo: 90,
   tempoMaximo: 180,
@@ -42,6 +43,31 @@ const data: Questao = {
       \]`,
     },
   ],
+};
+
+type Data = {
+  participante: {
+    nome: string;
+    cpf: string;
+    inscricao: string;
+  };
+  exame: Exame;
+  questao: Questao;
+};
+
+const data: Data = {
+  questao,
+  participante: {
+    nome: 'Fabiano S. Maeda',
+    cpf: '123.456.789-09',
+    inscricao: '123456789-9',
+  },
+  exame: {
+    horarioServidor: new Date().toISOString(),
+    tempoRestante: 3600,
+    respondidas: 10,
+    restantes: 30,
+  },
 };
 
 export default data;

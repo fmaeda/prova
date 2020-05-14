@@ -39,16 +39,6 @@ export const Content = styled.div`
   flex-direction: row;
 `;
 
-export const ProgressContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-self: stretch;
-  min-height: 10px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-`;
-
 type SilentProps = {
   silent?: boolean;
 };
@@ -86,3 +76,21 @@ export const CounterContainer = styled.div`
 `;
 
 export const Check = styled(motion.path)``;
+
+export const SpinnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  /* border: solid lime; */
+  /* flex: 1; */
+  /* align-self: stretch; */
+  /* background: blue; */
+  width: 50px;
+  height: 50px;
+  > * {
+    /* border: solid red 1px; */
+    /* margin-left: 10px; */
+  }
+`;

@@ -6,13 +6,13 @@ import { GiSandsOfTime } from 'react-icons/gi';
 
 import { Container, CountdownContainer, TimeBox } from './styled';
 import { RootState } from 'store';
-import { addMilliseconds } from 'date-fns';
+import { addMilliseconds, add } from 'date-fns';
 
 const mapStateToProps = ({
-  auth: { timeDiffMillis, dataFinalProva },
+  exame: { timeDiffMillis, tempoRestante },
 }: RootState) => ({
   timeDiffMillis,
-  dataFinalProva,
+  tempoRestante,
 });
 
 type Props = {} & ReturnType<typeof mapStateToProps>;
@@ -43,12 +43,15 @@ class TimerProva extends React.Component<Props> {
   };
 
   render() {
-    const { timeDiffMillis, dataFinalProva } = this.props;
-    if (!dataFinalProva) {
+    const { timeDiffMillis, tempoRestante } = this.props;
+    if (!tempoRestante) {
       return '';
     }
 
-    const endDate = addMilliseconds(new Date(dataFinalProva), timeDiffMillis);
+    const endDate = add(addMilliseconds(new Date(), timeDiffMillis), {
+      seconds: tempoRestante,
+    });
+
     return (
       <Container>
         <GiSandsOfTime />

@@ -4,6 +4,7 @@ import { Store } from 'redux';
 import { RootState } from 'store';
 import { History } from 'history';
 import { authActions } from 'store/auth';
+import { requestActions } from 'store/request';
 // import { tokenActions } from 'store/token';
 // import { serverActions } from 'store/server';
 
@@ -23,8 +24,11 @@ const extractErro = (response: any) => {
 };
 
 export default (store: Store<RootState>, history: History) => {
+  store.dispatch(requestActions.setLoading(false));
+
   axios.interceptors.response.use(
     (resp) => {
+      store.dispatch(requestActions.setLoading(false));
       const { headers } = resp;
       if (headers) {
         const token = headers['x-auth-token'];
@@ -32,14 +36,15 @@ export default (store: Store<RootState>, history: History) => {
           store.dispatch(authActions.setToken(token));
         }
 
-        const serverDate = headers['x-server-date'];
-        if (serverDate) {
-          store.dispatch(authActions.updateClientTimeDiff(serverDate));
-        }
+        // const serverDate = headers['x-server-date'];
+        // if (serverDate) {
+        //   store.dispatch(authActions.updateClientTimeDiff(serverDate));
+        // }
       }
       return resp;
     },
     (error) => {
+      store.dispatch(requestActions.setLoading(false));
       const erro = extractErro(error.response);
       if (error.response) {
         const {
@@ -65,13 +70,19 @@ export default (store: Store<RootState>, history: History) => {
     },
   );
   axios.interceptors.request.use(
-    (config) => ({
-      ...config,
-      headers: {
-        ...config.headers,
-        'x-auth-token': store.getState().auth.token,
-      },
-    }),
-    (error) => Promise.reject(error),
+    (config) => {
+      store.dispatch(requestActions.setLoading(true));
+      return {
+        ...config,
+        headers: {
+          ...config.headers,
+          'x-auth-token': store.getState().auth.token,
+        },
+      };
+    },
+    (error) => {
+      store.dispatch(requestActions.setLoading(false));
+      return Promise.reject(error);
+    },
   );
 };

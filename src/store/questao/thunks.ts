@@ -7,6 +7,8 @@ import { questaoActions } from './';
 import { Questao } from 'model/questao';
 import { Exame } from 'model/exame';
 import { Gabarito } from 'model/gabarito';
+import { exameActions } from 'store/exame/index';
+import { authActions } from 'store/auth/index';
 
 type Resp = {
   participante: {
@@ -14,9 +16,8 @@ type Resp = {
     cpf: string;
     inscricao: string;
   };
-  questao: Questao & {
-    exame: Exame;
-  };
+  exame: Exame;
+  questao: Questao;
   gabarito: Gabarito[];
 };
 
@@ -29,13 +30,36 @@ const fetchQuestao = (): ThunkAction<
   dispatch,
   // getState,
 ): Promise<void> => {
-  return axios
-    .get('/ibama/api/products')
-    .then(({ data }: AxiosResponse<Resp>) => {
-      // dispatch(questaoActions.setQuestao(data));
-    });
+  return axios.post('/qpi/pergunta').then(({ data }: AxiosResponse<Resp>) => {
+    const {
+      exame,
+      questao,
+      participante: { nome, cpf, inscricao },
+    } = data;
+    dispatch(questaoActions.setQuestao(questao));
+    dispatch(exameActions.setExame(exame));
+    dispatch(
+      authActions.setUserDetails({
+        nome,
+        cpf,
+        inscricao,
+      }),
+    );
+  });
+};
+
+const sendResposta = (): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> => (dispatch) => {
+  return axios.post('/qpi/resposta').then(() => {
+    dispatch(fetchQuestao());
+  });
 };
 
 export default {
   fetchQuestao,
+  sendResposta,
 };
